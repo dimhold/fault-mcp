@@ -1,0 +1,56 @@
+{
+  "name": "faultmcp",
+  "version": "0.1.0",
+  "description": "An MCP server that injects tool faults on purpose, so you can test how your agent copes when a tool errors, stalls, truncates, or quietly returns the wrong answer.",
+  "license": "MIT",
+  "author": "Dmitry Semenkevich <dimhold@gmail.com>",
+  "type": "module",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "bin": {
+    "faultmcp": "dist/bin.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "profiles",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "node dist/bin.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "fault-injection",
+    "chaos-engineering",
+    "llm",
+    "agents",
+    "testing",
+    "reliability"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "yaml": "^2.9.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
