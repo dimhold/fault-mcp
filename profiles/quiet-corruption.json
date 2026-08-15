@@ -1,0 +1,8 @@
+{
+  "name": "quiet-corruption",
+  "description": "Every call succeeds and every answer is wrong. Nothing errors, nothing is empty, nothing announces itself. This is the profile agents fail.",
+  "seed": 1337,
+  "defaults": [
+    { "kind": "corrupt", "probability": 1, "note": "wrong-but-plausible value, no signal" }
+  ]
+}

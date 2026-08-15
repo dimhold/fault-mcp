@@ -1,0 +1,9 @@
+{
+  "name": "schema-drift",
+  "description": "The upstream shipped a change nobody told you about: integers arrive as strings, and one required field goes missing every third call.",
+  "seed": 1337,
+  "defaults": [
+    { "kind": "schema", "probability": 1, "mode": "drop-required", "onCalls": [3, 6, 9, 12] },
+    { "kind": "schema", "probability": 1, "mode": "type-swap" }
+  ]
+}

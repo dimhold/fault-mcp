@@ -1,0 +1,14 @@
+{
+  "name": "truncating-stream",
+  "description": "Results arrive cut short, with no marker and no error. Models the half-read response body and the paginated API that stops early.",
+  "seed": 1337,
+  "defaults": [
+    { "kind": "truncate", "probability": 1, "keep": 8, "suffix": "", "dropStructured": true }
+  ],
+  "tools": {
+    "search": {
+      "faults": [{ "kind": "truncate", "probability": 1, "keep": 120, "dropStructured": true }],
+      "inheritDefaults": false
+    }
+  }
+}

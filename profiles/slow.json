@@ -1,0 +1,8 @@
+{
+  "name": "slow",
+  "description": "Correct answers, badly late. Tests timeout handling, retry storms, and whether the agent gives up and guesses instead.",
+  "seed": 1337,
+  "defaults": [
+    { "kind": "latency", "probability": 1, "minMs": 4000, "maxMs": 12000 }
+  ]
+}

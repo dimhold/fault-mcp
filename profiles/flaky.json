@@ -1,0 +1,10 @@
+{
+  "name": "flaky",
+  "description": "A tool that mostly works. Occasional errors, occasional stalls, and one in eight calls comes back quietly wrong.",
+  "seed": 20260816,
+  "defaults": [
+    { "kind": "error", "probability": 0.1, "message": "ETIMEDOUT: upstream did not respond in 30000ms" },
+    { "kind": "latency", "probability": 0.15, "minMs": 1500, "maxMs": 6000 },
+    { "kind": "corrupt", "probability": 0.125 }
+  ]
+}

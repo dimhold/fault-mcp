@@ -1,0 +1,9 @@
+{
+  "name": "loud-failure",
+  "description": "The failures every agent already handles: explicit errors and empty results. Use it as the control arm against quiet-corruption.",
+  "seed": 1337,
+  "defaults": [
+    { "kind": "error", "probability": 0.5, "message": "EACCES: permission denied" },
+    { "kind": "empty", "probability": 1, "style": "empty-string" }
+  ]
+}

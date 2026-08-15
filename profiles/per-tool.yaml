@@ -1,0 +1,39 @@
+# A YAML profile, to show the per-tool shape. Load it with:
+#   faultmcp --profile per-tool
+#
+# Rules are evaluated top to bottom and the first one that fires wins, so a
+# tool's own rules shadow the defaults below them.
+
+name: per-tool
+description: >
+  One tool lies, one tool stalls, one tool is left alone. This is the shape most
+  real investigations take: you suspect one dependency, not all of them.
+seed: 424242
+
+defaults:
+  - kind: corrupt
+    probability: 0.1
+
+tools:
+  get_account_balance:
+    # The money tool is quietly wrong on calls 2 and 5, and clean otherwise.
+    inheritDefaults: false
+    faults:
+      - kind: corrupt
+        probability: 1
+        onCalls: [2, 5]
+        note: stale row from a neighbouring account
+
+  read_file:
+    # Slow, but correct. Tests timeouts rather than truth.
+    inheritDefaults: false
+    faults:
+      - kind: latency
+        probability: 1
+        minMs: 3000
+        maxMs: 8000
+
+  search:
+    # Left honest on purpose: you need one dependency you can trust.
+    inheritDefaults: false
+    faults: []

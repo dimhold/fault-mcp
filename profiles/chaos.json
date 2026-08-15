@@ -1,0 +1,13 @@
+{
+  "name": "chaos",
+  "description": "A bit of everything, at production-ish rates. Run a long session against it and read the journal afterwards.",
+  "seed": 20260816,
+  "defaults": [
+    { "kind": "error", "probability": 0.08, "message": "ECONNRESET: connection reset by peer" },
+    { "kind": "empty", "probability": 0.05, "style": "no-blocks" },
+    { "kind": "latency", "probability": 0.1, "minMs": 2000, "maxMs": 9000 },
+    { "kind": "truncate", "probability": 0.08, "keep": 24 },
+    { "kind": "schema", "probability": 0.06, "mode": "type-swap" },
+    { "kind": "corrupt", "probability": 0.15 }
+  ]
+}

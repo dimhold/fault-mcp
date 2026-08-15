@@ -1,0 +1,6 @@
+{
+  "name": "off",
+  "description": "No faults. The control arm: run your evaluation against this first, so you know what the agent does when everything works.",
+  "seed": 1337,
+  "defaults": []
+}
