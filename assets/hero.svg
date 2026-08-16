@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 590" width="1200" height="590" role="img" aria-label="An agent calls faultmcp, faultmcp forwards the call to the real tool, and injects a fault into the result on the way back.">
+  <defs>
+    <marker id="arrowRight" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowClean" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrowBad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#fb923c"/>
+    </marker>
+    <style>
+      .t  { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      .m  { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
+      .h1 { font-size: 38px; font-weight: 700; fill: #f1f5f9; }
+      .sub{ font-size: 16px; fill: #94a3b8; }
+      .box{ font-size: 19px; font-weight: 600; fill: #f1f5f9; }
+      .lbl{ font-size: 13px; fill: #94a3b8; }
+      .code{ font-size: 13px; fill: #cbd5e1; }
+      .good{ fill: #34d399; }
+      .bad { fill: #fb923c; }
+      .cap { font-size: 12px; font-weight: 700; letter-spacing: 1.4px; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="590" rx="18" fill="#0f172a"/>
+
+  <text x="48" y="58" class="t h1">faultmcp</text>
+  <text x="48" y="86" class="t sub">an MCP server that injects tool faults on purpose</text>
+  <text x="1152" y="60" class="t sub" text-anchor="end">seed 1337 · profile quiet-corruption</text>
+
+  <!-- boxes -->
+  <rect x="48" y="150" width="250" height="96" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="173" y="192" class="t box" text-anchor="middle">Your agent</text>
+  <text x="173" y="216" class="t lbl" text-anchor="middle">Claude Code, Desktop, your loop</text>
+
+  <rect x="430" y="150" width="300" height="96" rx="12" fill="#1e293b" stroke="#fb923c" stroke-width="2"/>
+  <text x="580" y="192" class="t box" text-anchor="middle">faultmcp</text>
+  <text x="580" y="216" class="t lbl" text-anchor="middle">MCP server · stdio</text>
+
+  <rect x="862" y="150" width="290" height="96" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <text x="1007" y="186" class="t box" text-anchor="middle">The real tool</text>
+  <text x="1007" y="210" class="t lbl" text-anchor="middle">bundled examples, or any</text>
+  <text x="1007" y="228" class="t lbl" text-anchor="middle">upstream MCP server</text>
+
+  <!-- forward path -->
+  <line x1="300" y1="178" x2="424" y2="178" stroke="#64748b" stroke-width="2" marker-end="url(#arrowRight)"/>
+  <text x="362" y="166" class="m code" text-anchor="middle">tools/call</text>
+
+  <line x1="732" y1="178" x2="856" y2="178" stroke="#64748b" stroke-width="2" marker-end="url(#arrowRight)"/>
+  <text x="794" y="166" class="t lbl" text-anchor="middle">forwarded unchanged</text>
+
+  <!-- return path -->
+  <line x1="856" y1="222" x2="732" y2="222" stroke="#34d399" stroke-width="2" marker-end="url(#arrowClean)"/>
+  <text x="794" y="244" class="t lbl good" text-anchor="middle">18,204.55 EUR</text>
+
+  <line x1="424" y1="222" x2="300" y2="222" stroke="#fb923c" stroke-width="2" marker-end="url(#arrowBad)"/>
+  <text x="362" y="244" class="t lbl bad" text-anchor="middle">9,381.67 EUR</text>
+  <text x="362" y="262" class="t lbl" text-anchor="middle">no error, no warning</text>
+
+  <!-- fault engine -->
+  <line x1="580" y1="248" x2="580" y2="316" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="400" y="318" width="360" height="118" rx="12" fill="#111f36" stroke="#334155" stroke-width="1.5"/>
+  <text x="424" y="348" class="t box" font-size="16">fault engine</text>
+  <text x="424" y="376" class="m code">seed + tool + call number → decision</text>
+  <text x="424" y="398" class="m code">probability per rule, per tool</text>
+  <text x="424" y="420" class="m code">same seed, same run, every time</text>
+
+  <!-- journal -->
+  <line x1="760" y1="377" x2="812" y2="377" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="816" y="318" width="336" height="118" rx="12" fill="#111f36" stroke="#334155" stroke-width="1.5"/>
+  <text x="840" y="348" class="t box" font-size="16">journal.jsonl</text>
+  <text x="840" y="376" class="t lbl">what the tool actually returned,</text>
+  <text x="840" y="396" class="t lbl">written before it left the process.</text>
+  <text x="840" y="420" class="t lbl">Diff it against what the agent said.</text>
+
+  <!-- fault taxonomy -->
+  <line x1="48" y1="472" x2="1152" y2="472" stroke="#1e293b" stroke-width="1.5"/>
+
+  <text x="48" y="506" class="t cap good">LOUD</text>
+  <text x="48" y="530" class="m code">error · empty</text>
+  <text x="48" y="552" class="t lbl">the tool announces its own failure</text>
+
+  <text x="430" y="506" class="t cap bad">QUIET</text>
+  <text x="430" y="530" class="m code">corrupt · truncate · schema</text>
+  <text x="430" y="552" class="t lbl">the tool announces nothing at all</text>
+
+  <text x="880" y="506" class="t cap" fill="#94a3b8">SLOW</text>
+  <text x="880" y="530" class="m code">latency</text>
+  <text x="880" y="552" class="t lbl">the right answer, far too late</text>
+</svg>
