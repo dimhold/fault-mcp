@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "An MCP server that injects tool faults on purpose, so you can test how your agent copes when a tool errors, stalls, truncates, or quietly returns the wrong answer.",
   "license": "MIT",
-  "author": "Dmitry Semenkevich <dimhold@gmail.com>",
+  "author": "Dmitriy Semenkevich <dimhold@gmail.com>",
   "type": "module",
   "engines": {
     "node": ">=18.17"
