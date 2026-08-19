@@ -326,4 +326,4 @@ The [earlier study](https://gist.github.com/dimhold/b0dec449350265812dd90ef2b0b0
 
 ## License
 
-MIT. Copyright (c) 2026 Dmitry Semenkevich.
+MIT. Copyright (c) 2026 Dmitriy Semenkevich.
