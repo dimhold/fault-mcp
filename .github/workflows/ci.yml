@@ -73,15 +73,19 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: '18.17'
+      # The package is fault-mcp and the repository is faultmcp: npm refuses
+      # the unhyphenated name. So the tarball and node_modules path carry the
+      # hyphen while the repository does not, and this job is the first thing
+      # that breaks when somebody forgets that.
       - name: Install the tarball and drive it
         shell: bash
         run: |
           mkdir floor-check && cd floor-check
           npm init -y > /dev/null
-          npm install ../faultmcp-*.tgz --no-audit --no-fund
+          npm install ../fault-mcp-*.tgz --no-audit --no-fund
           cd ..
           node --version
-          node .github/scripts/smoke.mjs floor-check/node_modules/faultmcp/dist/bin.js
+          node .github/scripts/smoke.mjs floor-check/node_modules/fault-mcp/dist/bin.js
 
   package:
     name: package contents
