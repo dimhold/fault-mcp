@@ -4,11 +4,11 @@
     "rootDir": "src",
     "outDir": "dist",
 
-    // The published build carries no maps. They point at a src directory the
-    // tarball does not contain, so every one of them is a dead link for
-    // whoever installed the package: 30 of them shipped in the first pack of
-    // this repository before anyone looked inside it. The repository build
-    // still emits them, because there the sources are right there.
+    // No maps anywhere, not just in the tarball. They point at a src directory
+    // the package does not contain, so every one of them is a dead link for
+    // whoever installed it: 30 shipped in the first pack of this repository
+    // before anyone looked inside. Off in the base config too, so the
+    // repository build cannot quietly start emitting them again.
     "sourceMap": false,
     "declarationMap": false
   },
