@@ -67,7 +67,7 @@ if (!missingRows.length && !missingFiles.length) {
 
 // The README told people to run `npx faultmcp` for nine days while the package
 // was not on the registry at all. Whatever it claims, it has to be installable.
-if (/npx\s+faultmcp/.test(readme) || /npm\s+i(nstall)?\s+(-g\s+)?faultmcp/.test(readme)) {
+if (/npx\s+fault-mcp/.test(readme) || /npm\s+i(nstall)?\s+(-g\s+)?fault-mcp/.test(readme)) {
   console.log('  ok    the README tells people how to install it');
 } else {
   fail('the README never says how to install the package');

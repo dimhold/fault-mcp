@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2026-08-26
 
-First release on npm. The code had been on GitHub since 2026-08-17 and was
-usable only by cloning it, while the README told people to run
-`npx faultmcp --list-profiles`, which nobody could do.
+First release on npm, as **`fault-mcp`**. The code had been on GitHub since
+2026-08-17 and was usable only by cloning it, while the README told people to
+run `npx faultmcp`, which nobody could do.
+
+The package is `fault-mcp` and the repository is `faultmcp`, because npm
+refuses the unhyphenated name: *"Package name too similar to existing package
+fastmcp"*. The hyphen is what the registry accepts. Both `fault-mcp` and
+`faultmcp` are installed as commands, so either spelling works once it is on
+your machine.
 
 ### Added
 

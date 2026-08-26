@@ -45,7 +45,7 @@ None of those raise. Every one of them ends up in an answer your user reads. Bef
 ## Quickstart
 
 ```bash
-npx faultmcp --profile quiet-corruption
+npx fault-mcp --profile quiet-corruption
 ```
 
 That serves three example tools (`get_account_balance`, `search`, `read_file`) over MCP stdio, where every call succeeds and every answer is wrong.
@@ -109,14 +109,14 @@ node dist/bin.js --profile chaos --journal run.jsonl
 Same question, same seed, two profiles.
 
 ```
-$ npx faultmcp --profile off
+$ npx fault-mcp --profile off
 ```
 
 > **you:** what is the cleared balance on ACC-4471?
 > **agent:** *(calls `get_account_balance`)* ACC-4471 holds 40,718.77 USD, cleared as of 2026-03-19.
 
 ```
-$ npx faultmcp --profile quiet-corruption
+$ npx fault-mcp --profile quiet-corruption
 ```
 
 > **you:** what is the cleared balance on ACC-4471?
@@ -155,7 +155,7 @@ Every rule also takes `delayMs`, so you can make any of them slow as well as bro
 ## Picking a profile
 
 ```bash
-npx faultmcp --list-profiles
+npx fault-mcp --list-profiles
 ```
 
 | profile | what it does |
@@ -173,9 +173,9 @@ npx faultmcp --list-profiles
 Override any of it without touching the file:
 
 ```bash
-npx faultmcp --profile flaky --seed 99          # replay a different run
-npx faultmcp --force corrupt                    # every tool, every call
-npx faultmcp --force error --probability 0.25   # every tool, a quarter of calls
+npx fault-mcp --profile flaky --seed 99          # replay a different run
+npx fault-mcp --force corrupt                    # every tool, every call
+npx fault-mcp --force error --probability 0.25   # every tool, a quarter of calls
 ```
 
 ## Writing your own profile
@@ -235,7 +235,7 @@ The decision for a given call depends only on `(seed, tool name, call number)`. 
 faultmcp will sit in front of a real MCP server, re-expose everything it finds, and inject faults into the results on the way back. Your agent points at faultmcp and nothing else in the setup changes.
 
 ```bash
-npx faultmcp \
+npx fault-mcp \
   --no-examples \
   --upstream "npx -y @modelcontextprotocol/server-filesystem /tmp/workspace" \
   --profile quiet-corruption \
