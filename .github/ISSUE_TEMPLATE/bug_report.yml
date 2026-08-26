@@ -1,0 +1,39 @@
+name: Bug report
+description: Something behaves differently from what the README says.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A profile and a seed reproduce a run exactly, so those two lines are
+        usually the whole report. Please include them.
+
+        Note that wrong values, truncated results and errors are the product.
+        A report is about faultmcp doing something other than what it was
+        configured to do.
+  - type: input
+    id: command
+    attributes:
+      label: The command you ran
+      placeholder: npx faultmcp --profile quiet-corruption --seed 1337
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected instead
+    validations:
+      required: true
+  - type: textarea
+    id: journal
+    attributes:
+      label: The journal line for the call, if you have one
+      description: Written before the result leaves the process, so it is the ground truth.
+      render: json
+  - type: input
+    id: versions
+    attributes:
+      label: faultmcp version, node version, OS
+      placeholder: faultmcp 0.1.0, node 22.17.0, Windows 11
+    validations:
+      required: true
