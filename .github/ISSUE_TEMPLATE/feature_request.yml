@@ -1,0 +1,29 @@
+name: New fault or profile
+description: A failure mode faultmcp cannot express yet.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: real
+    attributes:
+      label: Where you have seen this happen for real
+      description: >
+        The six faults each stand in for something that happens in production.
+        A new one is worth adding when it does too.
+    validations:
+      required: true
+  - type: textarea
+    id: receives
+    attributes:
+      label: What the agent would receive
+      description: The exact shape of the payload, not a description of it.
+    validations:
+      required: true
+  - type: dropdown
+    id: loud
+    attributes:
+      label: Does it announce itself
+      options:
+        - "No: it looks like a normal answer"
+        - "Yes: the agent can tell something went wrong"
+    validations:
+      required: true

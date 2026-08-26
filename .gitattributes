@@ -1,0 +1,12 @@
+# LF in the repository, whatever the working tree looks like. This was written
+# on Windows, so without this the first contributor on Linux rewrites every
+# line of every file they save. Normalised once, deliberately.
+* text=auto
+
+# A fault injector is judged on the bytes it hands back. The profiles decide
+# what those bytes are, so they are compared byte for byte in tests and must
+# not be touched by line ending conversion.
+profiles/** -text
+
+*.png binary
+*.tgz binary

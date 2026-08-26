@@ -2,7 +2,15 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+
+    // The published build carries no maps. They point at a src directory the
+    // tarball does not contain, so every one of them is a dead link for
+    // whoever installed the package: 30 of them shipped in the first pack of
+    // this repository before anyone looked inside it. The repository build
+    // still emits them, because there the sources are right there.
+    "sourceMap": false,
+    "declarationMap": false
   },
   "include": ["src/**/*.ts"]
 }

@@ -1,0 +1,117 @@
+# The unit tests call the fault engine directly, which is what makes the bytes
+# assertable. It also means the server could stop speaking MCP altogether and
+# every test would still pass, because nothing in the suite starts the binary.
+# That is what the smoke job is for.
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags-ignore: ['**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # An MCP server over stdio is not platform-specific the way a process
+        # collector is, but line endings and path handling are, and this
+        # package is judged on the exact bytes it hands back.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: ['22', '24']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+      - name: Build
+        run: npm run build
+      # Starts the real binary, completes a real handshake, and asserts that a
+      # forced corrupt call comes back successful and wrong. A fault injector
+      # whose quiet faults are visible from the outside has no purpose.
+      - name: Speak MCP for real
+        run: node .github/scripts/smoke.mjs
+
+  # `engines` promises Node 18.17, and that promise is about running faultmcp,
+  # not about running its test suite. Vitest 4 needs Node 20, so the floor is
+  # checked the way it actually matters: build on a modern Node, install the
+  # tarball on 18.17, and make it serve.
+  floor:
+    name: ${{ matrix.os }} / the package on node 18.17
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm pack
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '18.17'
+      - name: Install the tarball and drive it
+        shell: bash
+        run: |
+          mkdir floor-check && cd floor-check
+          npm init -y > /dev/null
+          npm install ../faultmcp-*.tgz --no-audit --no-fund
+          cd ..
+          node --version
+          node .github/scripts/smoke.mjs floor-check/node_modules/faultmcp/dist/bin.js
+
+  package:
+    name: package contents
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # dist, profiles, README and LICENSE, and nothing else. The first pack of
+      # this repository was 72 files carrying 30 source maps that named a src
+      # directory the tarball does not ship, so this is checked rather than
+      # assumed.
+      - name: Nothing unexpected ships
+        run: node .github/scripts/check-package.mjs
+
+  docs:
+    name: the README matches the code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      # The README documents the faults and the profiles, and both lists also
+      # exist in the code. A fault added without a row leaves the README
+      # describing a program that no longer exists, and a card generator in
+      # another repository reads that same table.
+      - name: Faults and profiles are documented
+        run: node .github/scripts/check-docs.mjs

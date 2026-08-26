@@ -1,0 +1,91 @@
+# Publishing is a tag away, and the tag is the only thing that decides. This
+# package went to npm for the first time from a laptop, and that first publish
+# is the last one that should ever happen that way: a release built from
+# somebody's working tree is a release nobody can reproduce.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: node .github/scripts/smoke.mjs
+
+  publish:
+    name: publish to npm
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      # Required for provenance: npm records which workflow, at which commit,
+      # built the tarball, and the registry shows it as verified.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      # A repository with no NPM_TOKEN has not opted into publishing from CI,
+      # and a release that goes red every time for a missing secret trains
+      # everyone to ignore the one that goes red for a real reason. The tag
+      # is still verified on all three platforms above; only the last step
+      # stands down, and it starts working the moment the secret is added.
+      - name: Is publishing configured
+        id: token
+        # Under its own name, not NODE_AUTH_TOKEN. setup-node writes a
+        # placeholder into that one so the .npmrc it generates has something
+        # to expand, which made "is it set" answer yes with no secret at all,
+        # and the publish went as far as a 404 from the registry before
+        # anyone found out.
+        env:
+          CONFIGURED_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -n "$CONFIGURED_TOKEN" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::NPM_TOKEN is not set, so nothing was published. Add it to publish this tag from CI."
+          fi
+
+      - run: npm ci
+        if: steps.token.outputs.configured == 'true'
+      - run: npm run build
+        if: steps.token.outputs.configured == 'true'
+      - run: node .github/scripts/check-package.mjs
+        if: steps.token.outputs.configured == 'true'
+
+      # A tag that disagrees with package.json publishes a version nobody
+      # asked for, and it cannot be taken back.
+      - name: The tag and package.json must agree
+        if: steps.token.outputs.configured == 'true'
+        run: node .github/scripts/check-version.mjs "${GITHUB_REF_NAME}"
+
+      - name: Publish
+        if: steps.token.outputs.configured == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
