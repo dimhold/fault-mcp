@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "fault-mcp"
+type: software
+authors:
+  - family-names: Semenkevich
+    given-names: Dmitriy
+    orcid: "https://orcid.org/0009-0009-3013-4978"
+version: "0.2.0"
+date-released: "2026-08-27"
+license: MIT
+repository-code: "https://github.com/dimhold/fault-mcp"
+abstract: "An MCP proxy that injects tool failures on purpose. Six fault types, per tool and per call, one seed that replays the whole run."
+keywords:
+  - "MCP"
+  - "fault injection"
+  - "chaos engineering"
+  - "LLM agents"
+  - "testing"
