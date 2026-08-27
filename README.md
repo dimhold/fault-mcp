@@ -324,6 +324,19 @@ Two models, one tool, 100 calls, one sitting, one CLI at its default decoding se
 
 The [earlier study](https://gist.github.com/dimhold/b0dec449350265812dd90ef2b0b0f6d9) removed the tools entirely and found the opposite failure: 0 of 40 replies mentioned the missing capability, and 34 of them wrote out a tool call that never happened. Put together: a tool that is absent gets invented, a tool that is loudly broken gets reported accurately, and a tool that is quietly wrong gets passed straight through.
 
+## Prior work
+
+Checked 2026-08-27. Not first, and the design is close.
+
+- [ajinb/mcp-chaos](https://github.com/ajinb/mcp-chaos) is nearly identical in
+  design, including a seed that replays a whole run. It is about two months
+  older than this project.
+
+That changes one sentence and nothing else. This is not the first fault injector
+for MCP tools. It also means the problem is real enough that somebody else
+arrived at the same shape independently. What decides anything here is execution
+and whether this ends up inside somebody's CI, not priority.
+
 ## License
 
 MIT. Copyright (c) 2026 Dmitriy Semenkevich.
