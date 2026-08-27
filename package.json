@@ -15,11 +15,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dimhold/faultmcp.git"
+    "url": "git+https://github.com/dimhold/fault-mcp.git"
   },
-  "homepage": "https://github.com/dimhold/faultmcp#readme",
+  "homepage": "https://github.com/dimhold/fault-mcp#readme",
   "bugs": {
-    "url": "https://github.com/dimhold/faultmcp/issues"
+    "url": "https://github.com/dimhold/fault-mcp/issues"
   },
   "author": "Dmitriy Semenkevich <dimhold@gmail.com>",
   "type": "module",
