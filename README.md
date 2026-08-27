@@ -13,6 +13,8 @@
 
 # faultmcp
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22128858.svg)](https://doi.org/10.5281/zenodo.22128858)
+
 **An MCP server that lies to your agent on purpose.** It exposes tools that error, stall, truncate, drop their schema, come back empty, or come back quietly wrong, on a schedule you configure and a seed you can replay. Point your agent at it and find out what your agent does about it.
 
 ## The measurement this comes from
