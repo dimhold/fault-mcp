@@ -6,9 +6,9 @@ authors:
   - family-names: Semenkevich
     given-names: Dmitriy
     orcid: "https://orcid.org/0009-0009-3013-4978"
-version: "0.2.0"
+version: "0.2.1"
 doi: "10.5281/zenodo.22128858"
-date-released: "2026-08-27"
+date-released: "2026-10-22"
 license: MIT
 repository-code: "https://github.com/dimhold/fault-mcp"
 abstract: "An MCP proxy that injects tool failures on purpose. Six fault types, per tool and per call, one seed that replays the whole run."
