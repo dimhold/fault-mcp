@@ -34,7 +34,7 @@ Four places, in this order:
 4. The table in `README.md`, in the section "The six faults", with what the
    agent receives and what it stands in for.
 
-Step 4 is not optional. `assets/` in the author's publishing repository generates a
+Step 4 is not optional. A card generator in the author's publishing repository builds a
 card from that table and refuses to build when the table and `FAULT_KINDS`
 disagree, so a fault added without documenting it breaks something visible.
 
